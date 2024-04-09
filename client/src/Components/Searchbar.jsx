@@ -3,9 +3,27 @@ import { NavLink } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { IoMdCreate } from "react-icons/io";
 
+import axios from 'axios';
 import styled from "styled-components";
 
-export const Searchbar = ({ searchTerm, setSearchTerm }) => {
+export const Searchbar = ({ searchTerm, setSearchTerm, userId }) => {
+
+  const handleDownload = async (userId) => {
+    try {
+      const response = await axios(`http://localhost:3000/user/${userId}/excel`, { responseType: 'blob' });
+      
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'pagos.xlsx');
+      document.body.appendChild(link);
+      link.click();
+
+    } catch (error) {
+      console.log("FALLÓ TODO, AMIGOS!!", error)
+    }
+  };
+
 
   return (
     <Container>
@@ -20,12 +38,15 @@ export const Searchbar = ({ searchTerm, setSearchTerm }) => {
           <IoSearch />
         </Search>
         
-        <NavLink to="/payment">
-          <Button>
-            <IoMdCreate />
-              Create
-            </Button>
-        </NavLink>
+        <ButtonsContainer>
+          <NavLink to="/payment">
+            <Button>
+              <IoMdCreate />
+                Create
+              </Button>
+          </NavLink>
+          <DownloadButton onClick={() => handleDownload(userId)}>Download</DownloadButton>
+        </ButtonsContainer>
       </Box>
     </Container>
   )
@@ -33,7 +54,7 @@ export const Searchbar = ({ searchTerm, setSearchTerm }) => {
 
 const Container = styled.div`
 width: 100%;
-height: 5rem;
+height: 6rem;
 display: flex;
 align-items: center;
 border-bottom: 2px solid rgb(235, 235, 235);
@@ -66,7 +87,7 @@ justify-content: center;
 background-color: #DCD9FF;
 width: 2.5rem;
 height: 2.5rem;
-margin-right: 5rem;
+margin-right: 10rem;
 color: #0c41b2;
 border-radius: 50%;
 font-size: 24px;
@@ -74,10 +95,15 @@ font-size: 24px;
   border: transparent;
 }
 `
+const ButtonsContainer = styled.div`
+display: flex;
+justify-content: space-between;
+width: 14rem;
+`
 
 const Button = styled.button`
 height: 2.5rem;
-width: 8rem;
+width: 6rem;
 font-size: 16px;
 display: flex;
 align-items: center;
@@ -91,15 +117,20 @@ box-shadow: 0px 6px 8px -8px rgba(0, 0, 0, 0.568);
   background-color: #0c41b2cb;
 }
 `
-const Buttons = styled.button`
-height: 4rem;
-width: 5rem;
+const DownloadButton = styled.button`
+height: 2.5rem;
+width: 6rem;
 font-size: 15px;
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-color: #0c41b2;
+color: white;
+background-color: #0c41b2;
 box-shadow: 0px 6px 8px -8px rgba(0, 0, 0, 0.568);
+&:hover {
+  transition: 0.5s;
+  background-color: #0c41b2cb;
+}
 `
 // 1285px, 900px

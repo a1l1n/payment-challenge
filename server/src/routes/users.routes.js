@@ -3,7 +3,8 @@ import {
    registerUser,
    postLoginUser,
    getAllUsers,
-   logOut
+   logOut,
+   generateExcel
 } from "../controllers/users.controllers.js"
 import { requireAuth } from "../middleware/authMiddleware.js";
 import { getAllPayments } from "../controllers/users.controllers.js";
@@ -17,5 +18,6 @@ router.get("/logout", logOut);
 router.get('/allUsers', getAllUsers);
 
 router.get("/user/:id/payments", requireAuth, getAllPayments);
+router.get("/user/:id/excel", generateExcel)
 
 export default router;

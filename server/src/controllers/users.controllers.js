@@ -1,6 +1,7 @@
 import { User } from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
+import ExcelJS from "exceljs";
 import { Payment } from "../models/Payment.js";
 
 const jwtSecret = process.env.JWT_SECRET;
@@ -100,6 +101,55 @@ export const getAllPayments = async (req, res) => {
         return res.status(500).json({ message: error.message })
     }
 };
+
+export const generateExcel = async (req, res) => {
+    try {
+      const { id } = req.params
+      const history = await Payment.findAll({
+          where: {
+              userId: id
+          }
+      })
+      
+      if (!history) return res.status(400).json({ message: "There was a problem getting the data" });
+
+      // Crear un libro Excel
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet('Pagos');
+      
+      worksheet.columns = [
+        { header: "Id", key: "id", width: 10 },
+        { header: "Type", key: "type", width: 15 },
+        { header: "Amount", key: "amount", width: 10 },
+        { header: "Addresse", key: "addresse", width: 15 },
+        { header: "Date", key: "date", width: 15 },
+        { header: "Description", key: "description", width: 20 }
+      ];
+
+      history.map(value => {
+          worksheet.addRow({
+            id: value.id,
+            type: value.type,
+            amount: value.amount,
+            addresse: value.addresse,
+            date: value.date,
+            description: value.description
+          });
+      });
+
+      // Generar el archivo Excel en la memoria
+      const buffer = await workbook.xlsx.writeBuffer();
+
+        // Enviar el archivo Excel al cliente como respuesta
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=pagos.xlsx');
+        res.send(buffer);
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send(error)
+    }
+}
 
 export const getAllUsers = async (req, res) => {
     try {

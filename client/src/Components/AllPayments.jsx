@@ -103,7 +103,7 @@ export const AllPayments = ({ userId, filters }) => {
   
   return (
     <Container>
-      <Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} allPayments={payments} />
+      <Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} userId={userId} />
 
       {
         ( payments.length === 0) ?
