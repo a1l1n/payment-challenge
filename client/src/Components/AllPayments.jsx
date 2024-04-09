@@ -8,7 +8,6 @@ import { FaCircle } from "react-icons/fa";
 import axios from 'axios';
 import Swal from "sweetalert2";
 import styled from "styled-components";
-import Styles from "./AllPayments.module.css"
 import 'react-datepicker/dist/react-datepicker.css';
 
 const getPaymentsUrl = import.meta.env.VITE_GET_PAYMENTS_URL;
@@ -76,13 +75,27 @@ export const AllPayments = ({ userId, filters }) => {
   // Eliminando entrada
   const handleDeletePayment = async (paymentId) => {
     try {
-      await axios.delete(`${editPaymentsUrl}/${paymentId}`);
-      const updatedPayments = payments.filter(payment => payment.id !== paymentId);
-      setPayments(updatedPayments);
-      Swal.fire({
-        icon:"success",
-        title: "Payment successfully deleted!"
-      })
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      });
+  
+      if (result.isConfirmed) {
+        await axios.delete(`${editPaymentsUrl}/${paymentId}`);
+        const updatedPayments = payments.filter(payment => payment.id !== paymentId);
+        setPayments(updatedPayments);
+        
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }
     } catch (error) {
       console.error('Error deleting payment:', error.response.data.message);
     }
@@ -109,35 +122,32 @@ export const AllPayments = ({ userId, filters }) => {
 
                 <TableTitle>                 
                   <Type>
-                    <FaCircle />
+                    <TypeCircle category={p.type}>
+                      <FaCircle />
+                    </TypeCircle>
                     <TypeTitle>{p.type}</TypeTitle>
                   </Type> 
                   <p>${p.amount}</p>
                 </TableTitle>
 
-                <div className={Styles.payment_description}>
-                  <p>Addresse: {p.addresse}</p>  
-                  <p>Date: {p.date}</p>
-                  <p> Description: { p.description ? p.description : "No description available"}</p>        
-                </div>
+                <PaymentDescription>
+                  <DescriptionItem>Addresse: {p.addresse}</DescriptionItem>  
+                  <DescriptionItem>Date: {p.date}</DescriptionItem>
+                  <DescriptionItem> Description: { p.description ? p.description : "No description available"}</DescriptionItem>        
+                </PaymentDescription>
 
               </Table>
                 
-              <div className={Styles.payment_buttons}>
-                <button 
-                onClick={() => navigate(`/payment/${p.id}/edit`)}
-                className={Styles.payment_button}>
+              <ButtonBox>
+                <Buttons onClick={() => navigate(`/payment/${p.id}/edit`)}
+                >
                   <AiFillEdit />
-                </button>
+                </Buttons>
 
-                <button 
-                onClick={() => handleDeletePayment(p.id)}
-                className={Styles.payment_button}>
+                <Buttons onClick={() => handleDeletePayment(p.id)}>
                   <MdDelete />
-                </button>
-                </div>
-              
-
+                </Buttons>
+                </ButtonBox>
             </Item>
           ))
         )
@@ -148,13 +158,13 @@ export const AllPayments = ({ userId, filters }) => {
   )
 }
 
-
 const Container = styled.div`
 margin-top: 3rem;
 width: 50%;
 border-radius: 20px;
 background-color: white;
 box-shadow: 0px 6px 10px -8px rgba(0, 0, 0, 0.568);
+margin-bottom: 3rem
 `
 const NoPayment = styled.div`
 display: flex;
@@ -206,4 +216,37 @@ padding-left: 2rem;
 
 const TypeTitle = styled.p`
 margin-left: 1rem
+`
+
+const PaymentDescription = styled.div`
+display: flex;
+flex-direction: column;
+text-align: left;
+padding-left: 4rem;
+`
+
+const DescriptionItem = styled.p`
+margin: 0;
+`
+
+const ButtonBox = styled.div`
+display: flex;
+justify-content: space-around;
+width: 15%;
+margin-top: 1rem;
+`
+const Buttons = styled.button`
+height: 2.5rem;
+min-width: 2.5rem;
+color: #0c41b2;
+box-shadow: 0px 6px 10px -8px rgba(0, 0, 0, 0.568);
+`
+
+const TypeCircle = styled.div`
+color: ${props =>
+  props.category === "CREDIT" ? "#B5C0D0"
+  : props.category === "DEBIT" ? "#CCD3CA"
+  : props.category === "CASH" ? "#F5E8DD"
+  : "#EED3D9"
+}
 `

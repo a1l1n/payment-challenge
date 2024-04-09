@@ -1,6 +1,5 @@
 import React , { useState } from 'react';
-import Styles from "./Filters.module.css";
-
+import styled from "styled-components";
 
 export const Filters = ({ onFilterChange }) => {
   // States
@@ -28,32 +27,51 @@ export const Filters = ({ onFilterChange }) => {
   };
 
   return (
-    <div className={Styles.filters_container}>
-      <select 
-      className={Styles.filters_select}
+    <Container>
+      <Select 
       value={sortBy} onChange={handleSortByChange}>
         <option>Alphabetical</option>
         <option value="A-Z">A-Z</option>
         <option value="Z-A">Z-A</option>
-      </select>
+      </Select>
 
-      <select 
-      className={Styles.filters_select}
+      <Select 
       value={orderBy} onChange={handleOrderByChange}>
         <option>Amount</option>
         <option value="Asc">Asc</option>
         <option value="Desc">Desc</option>
-      </select>
+      </Select>
 
-      <select 
-      className={Styles.filters_select}
+      <Select 
       value={filterByType} onChange={handleFilterByTypeChange}>
         <option >Type</option>
         <option value="CASH">Cash</option>
         <option value="DEBIT">Debit</option>
         <option value="CREDIT">Credit</option>
         <option value="BANK TRANSFER">Bank Transfer</option>
-      </select>
-    </div>
+      </Select>
+    </Container>
   )
 }
+
+const Container = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+width: 25%;
+height: 20rem;
+margin-top: 3rem;
+border-radius: 20px;
+box-shadow: 0px 6px 10px -8px rgba(0, 0, 0, 0.568);
+background-color: white;
+`
+
+const Select = styled.select`
+width: 12rem;
+height: 2.5rem;
+margin: 1rem 0;
+border: 1px solid #DCD9FF;
+border-radius: 10px;
+padding-left: 1rem
+`

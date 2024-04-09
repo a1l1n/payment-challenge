@@ -2,11 +2,9 @@ import React from 'react';
 import { Logo } from '../assets/Logo';
 import { BiLogOut } from "react-icons/bi";
 import { NavLink, useNavigate } from "react-router-dom";
-import { IoIosListBox, IoMdCreate } from "react-icons/io";
 
 import axios from "axios";
 import styled from "styled-components";
-import Styles from "./Navbar.module.css";
 
 const logOutUrl = import.meta.env.VITE_LOGOUT_URL
 // Habilitar el intercambio de cookies
@@ -46,7 +44,7 @@ export const Navbar = () => {
 }
 
 const NavbarContainer = styled.div`
-width: 100%;
+width: 99.4%;
 height: 6rem;
 display: flex;
 justify-content: space-around;
@@ -56,10 +54,11 @@ border-bottom-left-radius: 20px;
 border-bottom-right-radius: 20px;
 outline: none;
 box-shadow: 0px 6px 10px -8px rgba(0, 0, 0, 0.568);
+overflow: hidden
 `
 
 const LogoBox = styled.div`
-display: flex
+display: flex;
 `
 
 const Welcome = styled.h1`

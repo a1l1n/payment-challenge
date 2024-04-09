@@ -10,7 +10,6 @@ import "../App.css"
 import axios from "axios";
 import Swal from "sweetalert2";
 import styled from "styled-components";
-import Styles from "./Payment.module.css"
 
 const newPaymentUrl = import.meta.env.VITE_POST_PAYMENT_URL;
 
@@ -218,7 +217,10 @@ export const Payment = () => {
         </TextArea> 
       </Text>
 
-      <Button>Create!</Button>
+      <ButtonBox>
+        <Button>Create!</Button>
+        <CancelButton onClick={() => navigate("/home")}>Cancel</CancelButton>
+      </ButtonBox>
 
       </Form>
     </Container>
@@ -273,30 +275,39 @@ display: flex;
 flex-direction: column;
 width: 220px;
 `
+//border-bottom: 1px solid #DCD9FF;
 
 const Input = styled.input`
 background-color: transparent;
-border: none;
+border: 1px solid #DCD9FF;
+border-radius: 10px;
+height: 2rem;
 outline: none;
-border-bottom: 1px solid #DCD9FF;
 font-weight: 500;
-margin: 1rem 0;
+margin: 0.5rem 0;
+padding-left: 1rem
 `
 
 const Select = styled.select`
-border: none;
+border: 1px solid #DCD9FF;
+border-radius: 10px;
+height: 2rem;
 outline: none;
+padding-left: 1rem;
 background-color: transparent;
 border-bottom: 1px solid #DCD9FF;
-margin: 1rem 0;
+margin: 0.5rem 0;
 `
 
 const DateContainer = styled.div`
 display: flex;
 align-items: center;
 justify-content: space-between;
-margin: 1rem 0;
-border-bottom: 1px solid #DCD9FF;
+margin: 0.5rem 0;
+border: 1px solid #DCD9FF;
+border-radius: 10px;
+height: 2rem;
+padding: 0 1rem;
 font-weight: 500;
 `
 const Text = styled.div`
@@ -309,6 +320,10 @@ background-color: transparent;
 outline: none;
 border-radius: 10px;
 border: 1px solid #DCD9FF;
+`
+const ButtonBox = styled.div`
+display: flex;
+flex-direction: column
 `
 
 const Button = styled.button`
@@ -323,4 +338,9 @@ background-color: #0c41b2;
   background-color: #0c41b2cb;
 }
 `
-
+const CancelButton = styled.button`
+width: 8rem;
+height: 2.5rem;
+margin-top: 1rem;
+color: #0c41b2;
+`
