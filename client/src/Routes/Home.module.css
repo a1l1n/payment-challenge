@@ -1,0 +1,10 @@
+.home_container {
+    width: 100vw;
+    height: auto;
+}
+
+.home_payments_container {
+    display: flex;
+    justify-content: space-around;
+}
+

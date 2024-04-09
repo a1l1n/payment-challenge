@@ -1,0 +1,10 @@
+#root {
+  text-align: center;
+}
+
+.pay-datepiker {
+  background-color: transparent;
+  border: none;
+  width: 100px;
+  outline: none;
+}

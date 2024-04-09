@@ -1,0 +1,33 @@
+
+.payment_description {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding-left: 4rem;
+}
+
+.payment_description p {
+    margin: 0;
+}
+
+.payment_buttons {
+    display: flex;
+    justify-content: space-around;
+    width: 15%;
+    margin-top: 1rem;
+}
+
+.pay_addresse_div, .pay_date_div, .pay_desc_div {
+    display: flex;
+    flex-direction: row;
+    margin: 0.1rem 0;
+}
+
+.payment_button {
+    height: 2.5rem;
+    min-width: 2.5rem;
+    box-shadow: 0px 6px 10px -8px rgba(0, 0, 0, 0.568);
+}
+
+/* EDITING --------------------------- */
+
