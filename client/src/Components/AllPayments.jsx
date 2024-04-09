@@ -162,8 +162,8 @@ const Container = styled.div`
 margin-top: 3rem;
 width: 50%;
 border-radius: 20px;
-background-color: white;
 box-shadow: 0px 6px 10px -8px rgba(0, 0, 0, 0.568);
+background-color: white;
 margin-bottom: 3rem
 `
 const NoPayment = styled.div`
